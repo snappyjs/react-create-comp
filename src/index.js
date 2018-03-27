@@ -1,13 +1,22 @@
 'use strict';
 
+/**
+ * This is where you develop your components.
+ * You can use the tools from the sandbox to
+ * change the props that you input to it.
+ */
+
 import React from 'react';
 
-
-const ExampleComponent = () => {
-    return(
+const ExampleComponent = ({address, name, isVisible }) => {
+    if(!isVisible) return null;
+    return (
         <div>
-            <h1>I'm an example component</h1>
-            <p>If you want a complete tutorial on how to use this package visit: https://www.snappyjs.com</p>
+            <h1>I'm an example component from {name}</h1>
+            <p>
+                If you want a complete tutorial on how to use this package visit:
+                {address}
+            </p>
         </div>
     );
 };

@@ -1,0 +1,26 @@
+$editorWidth: 960px;
+
+.editorcontainer {
+    position: fixed;
+    top: -5px;
+    width: $editorWidth;
+    left: 50%;
+    transform: translateX(-50%);
+
+    background: #efefef;
+    border: 1px solid #ccc;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.12);
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+
+    padding: 5px 5px 0 5px;
+}
+
+.textarea {
+    width: $editorWidth - 10px;
+    min-height: 250px;
+    background-color: rgba(0, 255, 0, 0.2);
+}
+.error {
+    background-color: rgba(255, 0, 0, 0.2);
+}

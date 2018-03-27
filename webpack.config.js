@@ -16,7 +16,7 @@ const HtmlWebpackTemplate = require('html-webpack-template');
 // --------------
 const DIST_DIR = path.join(__dirname, 'dist');
 const SRC_DIR = path.join(__dirname, 'src');
-const SAMPLE_DIR = path.join(__dirname, 'sample');
+const SANDBOX_DIR = path.join(__dirname, 'sandbox');
 
 // ------------
 // The library used for the umd build.
@@ -40,7 +40,7 @@ module.exports = {
     // ------------
     entry: removeEmpty([
         ifProduction(path.join(SRC_DIR, 'index.js')),
-        ifDevelopment(path.join(SAMPLE_DIR, 'index.js'))
+        ifDevelopment(path.join(SANDBOX_DIR, 'index.js'))
     ]),
 
     // -------------
@@ -71,7 +71,14 @@ module.exports = {
                 test: /\.(js|jsx)$/,
                 use: 'babel-loader',
                 exclude: /node_modules/,
-                include: [SRC_DIR, SAMPLE_DIR]
+                include: [SRC_DIR, SANDBOX_DIR]
+            },
+            {
+                test: /\.scss$/,
+                loader:
+                    'style-loader!css-loader?modules=true&localIdentName=[name]_[local]_[base64:5]!resolve-url-loader!sass-loader',
+                exclude: /node_modules/,
+                include: [SRC_DIR, SANDBOX_DIR]
             }
         ]
     },
@@ -96,25 +103,28 @@ module.exports = {
     // -------------
     // Externals - To make sure that we don't bundle React and ReactDOM in our final package.
     // -------------
-    externals: {
-        react: {
-            root: 'React',
-            commonjs2: 'react',
-            commonjs: 'react',
-            amd: 'react',
-            umd: 'react'
+    externals: ifProduction(
+        {
+            react: {
+                root: 'React',
+                commonjs2: 'react',
+                commonjs: 'react',
+                amd: 'react',
+                umd: 'react'
+            },
+            'react-dom': {
+                root: 'ReactDOM',
+                commonjs2: 'react-dom',
+                commonjs: 'react-dom',
+                amd: 'react-dom',
+                umd: 'react-dom'
+            }
         },
-        'react-dom': {
-            root: 'ReactDOM',
-            commonjs2: 'react-dom',
-            commonjs: 'react-dom',
-            amd: 'react-dom',
-            umd: 'react-dom'
-        }
-    },
+        {}
+    ),
 
     // -------------
-    // Webpack-Dev Server for Sample
+    // Webpack-Dev Server for sandbox
     // -------------
     devServer: {
         hot: true,
